@@ -113,7 +113,7 @@ def load_datasets_windows_2d(record_number, sampfrom=0, sampto=10800, beat_types
 	
 	# Remove centers that would create incompletely captured windows due to sample range
 	DOWNSAMPLE_NORMAL = 3 # downsample "normal" windows to balance out the N:V ratio
-	samples = [i for i in range(sampto) if i - window_radius >= sampfrom and i + window_radius < sampto and (i in samples_pvc or i % DOWNSAMPLE_NORMAL == 0)]
+	samples = [i for i in range(sampfrom, sampto) if i - window_radius >= sampfrom and i + window_radius < sampto and (i in samples_pvc or i % DOWNSAMPLE_NORMAL == 0)]
 
 	# Create examples (windows centered at samples) and labels
 	num_windows = len(samples)
@@ -143,10 +143,9 @@ def load_datasets_windows_2d(record_number, sampfrom=0, sampto=10800, beat_types
 	y_test = np.array([y for _,y in sorted(zip(beats_test,y_test))])
 
 	# Print proportion of each beat type to total beats in each dataset
-	categories = ['-'] + beat_types
+	classes = ['-'] + beat_types
 	print('Record ' + str(record_number) + ':')
-	for beat_type in categories:
-	# for beat_type in beat_types:
+	for beat_type in classes:
 		print('[' + beat_type + ' beats] Train:Validation:Test = ' + str(y_train.tolist().count(beat_type)) + ':'
 										+ str(y_val.tolist().count(beat_type)) + ':'
 										+ str(y_test.tolist().count(beat_type)))
@@ -155,11 +154,10 @@ def load_datasets_windows_2d(record_number, sampfrom=0, sampto=10800, beat_types
 										+ str(len(y_test.tolist())) + '\n')
 
 	# One-hot encode the ground truths
-	# beat_types = np.array(beat_types)
-	beat_types = np.array(categories)
-	y_train = np.array([beat_types == y for y in y_train])
-	y_val   = np.array([beat_types == y for y in y_val])
-	y_test  = np.array([beat_types == y for y in y_test])
+	classes = np.array(classes)
+	y_train = np.array([classes == y for y in y_train])
+	y_val   = np.array([classes == y for y in y_val])
+	y_test  = np.array([classes == y for y in y_test])
 
 	# Return train, validation, and test data!
 	return (x_train, y_train), (x_val, y_val), (x_test, y_test)
