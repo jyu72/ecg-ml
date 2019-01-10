@@ -1,5 +1,7 @@
 # ecg-ml
 
+![intro img](https://github.com/jyu72/ecg-ml/blob/master/intro-img.png)
+
 ## Introduction
 
 This is a Python library of tools for training and testing convolutional neural networks (CNNs)  to identify certain arrhythmias in 2-lead ECG rhythms. Tools are also provided for prediction on unannotated data and visualization of results.
