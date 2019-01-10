@@ -22,7 +22,7 @@ RECORD_LENGTH = 650000  # each ECG record contains 650000 samples total
 
 # Return a Record object given the record number and sample period
 def read_record(record_num, sampfrom=0, sampto=RECORD_LENGTH, channels=[0,1]):
-    return wfdb.rdsamp('data/' + str(record_num), sampfrom=sampfrom, sampto=sampto, channels=channels)
+    return wfdb.rdrecord('data/' + str(record_num), sampfrom=sampfrom, sampto=sampto, channels=channels)
 
 
 # ----------------------------- ECG Annotations ------------------------------ #
