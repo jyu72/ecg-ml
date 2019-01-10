@@ -16,7 +16,7 @@ This is a Python library of tools for training and testing convolutional neural 
 
 ## Data
 
-ECG records and annotations can be downloaded from the [MIT-BIH Arrhythmia Database](https://www.physionet.org/physiobank/database/mitdb/). Please place them into the ```data``` folder.
+ECG signal, annotation, and header files can be downloaded from the [MIT-BIH Arrhythmia Database](https://www.physionet.org/physiobank/database/mitdb/). For any desired record, the signal (```.dat```), annotation (```.atr```), and header (```.hea```) files should all be downloaded and placed into the ```data``` folder.
 
 ## Installing
 
