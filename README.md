@@ -8,7 +8,7 @@ This is a Python library of tools for training and testing convolutional neural 
 
 ## Requirements
 
-- Python 2.7+
+- Python 2.7+, 3.5
 - Keras
 - Numpy
 - Matplotlib
