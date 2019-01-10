@@ -44,7 +44,7 @@ def read_annotation(annotation_num, sampfrom=0, sampto=RECORD_LENGTH, beat_types
 
 	# Write annotation file and read back in to create Annotation object
 	wfdb.wrann(str(annotation_num) + '_select', 'atr', np.asarray(selected_samples), selected_symbols, fs=360)
-	ecg_annotation = wfdb.rdann(str(annotation_num) + '_select', 'atr', sampfrom=sampfrom, sampto=sampto, shiftsamps=True)
+	ecg_annotation = wfdb.rdann(str(annotation_num) + '_select', 'atr', sampfrom=sampfrom, sampto=sampto, shift_samps=True)
 	os.remove(str(annotation_num) + '_select.atr')
 
 	return ecg_annotation
@@ -59,7 +59,7 @@ def create_annotation(samples, symbols, sampfrom=0, sampto=RECORD_LENGTH, beat_t
 
 	# Write annotation file and read back in to create Annotation object
 	wfdb.wrann('temp_delete_me', 'atr', np.asarray(selected_samples), np.asarray(selected_symbols), fs=360)
-	ecg_annotation = wfdb.rdann('temp_delete_me', 'atr', sampfrom=sampfrom, sampto=sampto, shiftsamps=True)
+	ecg_annotation = wfdb.rdann('temp_delete_me', 'atr', sampfrom=sampfrom, sampto=sampto, shift_samps=True)
 	os.remove('temp_delete_me.atr')
 
 	return ecg_annotation
