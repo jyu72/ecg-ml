@@ -79,8 +79,8 @@ def load_windows_2d(record_number, sampfrom=0, sampto=1080, window_radius=24):
 	p_signals = np.vstack((p_signals[:,0], p_signals[:,1]))
 
 	# Create prediction samples and corresponding windows
-	samples = [i for i in range(sampto) if i - window_radius >= sampfrom and i + window_radius < sampto]
-	windows = [p_signals[:,i - window_radius:i + window_radius + 1] for i in samples]
+	samples = [i for i in range(sampfrom, sampto) if i - window_radius >= sampfrom and i + window_radius < sampto]
+	windows = [p_signals[:,i - sampfrom - window_radius:i - sampfrom + window_radius + 1] for i in samples]
 
 	return (samples, np.array(windows))
 
