@@ -58,6 +58,12 @@ ecg_data.plot_prediction(119, annotation, sampfrom=20000, sampto=23600)
 
 ![prediction result](https://github.com/jyu72/ecg-ml/blob/master/demo-img.png)
 
+A similar analysis can be performed on ECG Record 208, which can be visualized as follows.
+
+![prediction result 2](https://github.com/jyu72/ecg-ml/blob/master/demo-img2.png)
+
+We find that a few samples between the 63 second and 64 second marks are predicted incorrectly, but the overall performance is still acceptable.
+
 ## Author
 
 Jonathan Yu
