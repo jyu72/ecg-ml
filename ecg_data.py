@@ -75,12 +75,12 @@ def load_windows_2d(record_number, sampfrom=0, sampto=1080, window_radius=24):
     assert(record.n_sig == 2)
 
     # Format the data so that it is "image-like"
-    p_signals = np.array(record.p_signals.tolist())
-    p_signals = np.vstack((p_signals[:,0], p_signals[:,1]))
+    p_signal = np.array(record.p_signal.tolist())
+    p_signal = np.vstack((p_signal[:,0], p_signal[:,1]))
 
     # Create prediction samples and corresponding windows
     samples = [i for i in range(sampfrom, sampto) if i - window_radius >= sampfrom and i + window_radius < sampto]
-    windows = [p_signals[:,i - sampfrom - window_radius:i - sampfrom + window_radius + 1] for i in samples]
+    windows = [p_signal[:,i - sampfrom - window_radius:i - sampfrom + window_radius + 1] for i in samples]
 
     return (samples, np.array(windows))
 
@@ -96,8 +96,8 @@ def load_datasets_windows_2d(record_number, sampfrom=0, sampto=10800, beat_types
     assert(record.n_sig == 2)
 
     # Format the data so that it is "image-like"
-    p_signals = np.array(record.p_signals.tolist())
-    p_signals = np.vstack((p_signals[:,0], p_signals[:,1]))
+    p_signal = np.array(record.p_signal.tolist())
+    p_signal = np.vstack((p_signal[:,0], p_signal[:,1]))
 
     # Extract beat locations and symbols from annotation
     beat_locations = annotation.sample
@@ -117,7 +117,7 @@ def load_datasets_windows_2d(record_number, sampfrom=0, sampto=10800, beat_types
 
     # Create examples (windows centered at samples) and labels
     num_windows = len(samples)
-    x_all = [p_signals[:,i - window_radius:i + window_radius + 1] for i in samples]
+    x_all = [p_signal[:,i - window_radius:i + window_radius + 1] for i in samples]
     y_all = ['V' if i in samples_pvc else '-' for i in samples]
 
     # Randomly divide data into train, validation, and test sets
@@ -185,7 +185,7 @@ def plot_ecg_ann(record, annotation, record_num, sampfrom=0, sampto=10800, annst
     annstyle = [annstyle]*record.n_sig
 
     # Denote the ECG signals (array of each sample's amplitude)
-    ecg_signals = record.p_signals
+    ecg_signals = record.p_signal
 
     # Denote the length and number of signals
     siglen, nsig = ecg_signals.shape
@@ -222,10 +222,10 @@ def plot_ecg_ann(record, annotation, record_num, sampfrom=0, sampto=10800, annst
             # Time locations of annotations (negatives removed)
             checked_tann = tann[ch][tann[ch] >= 0] + sampfrom/float(record.fs)
 
-            ax.plot(checked_tann, record.p_signals[checked_annplot, ch], annstyle[ch], zorder=3, markersize=5)
+            ax.plot(checked_tann, record.p_signal[checked_annplot, ch], annstyle[ch], zorder=3, markersize=5)
 
             # Original source code does not allow plotting sampfrom > 0
-            # ax.plot(tann[ch], record.p_signals[annplot[ch], ch], annstyle[ch], zorder = 3)
+            # ax.plot(tann[ch], record.p_signal[annplot[ch], ch], annstyle[ch], zorder = 3)
 
         # Set minimum x-coordinate as beginning of actual time, not necessarily 0
         ax.set_xlim(xmin=sampfrom/float(record.fs))
@@ -320,7 +320,7 @@ def upround(x, base):
 # Return the x-axis values (time and sample, respectively) to plot for the record (and annotation, if any)
 def checkplotitems(record, annotation):
     
-    siglen, nsig = record.p_signals.shape
+    siglen, nsig = record.p_signal.shape
 
     # Annotations if any
     if annotation is not None:
