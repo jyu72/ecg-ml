@@ -54,6 +54,8 @@ annotation = ecg_data.create_annotation(centers, predictions, sampfrom=20000, sa
 ecg_data.plot_prediction(119, annotation, sampfrom=20000, sampto=23600)
 ```
 
+![prediction result](https://github.com/jyu72/ecg-ml/blob/master/demo-img.png)
+
 ## Author
 
 Jonathan Yu
