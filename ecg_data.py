@@ -224,15 +224,11 @@ def plot_ecg_ann(record, annotation, record_num, sampfrom=0, sampto=10800, annst
 
             ax.plot(checked_tann, record.p_signal[checked_annplot, ch], annstyle[ch], zorder=3, markersize=5)
 
-            # Original source code does not allow plotting sampfrom > 0
-            # ax.plot(tann[ch], record.p_signal[annplot[ch], ch], annstyle[ch], zorder = 3)
-
         # Set minimum x-coordinate as beginning of actual time, not necessarily 0
         ax.set_xlim(xmin=sampfrom/float(record.fs))
-        # ax.set_xlim(xmin=0)
 
         # Axis labels
-        ax.set_ylabel(record.signame[ch] + '/' + record.units[ch])
+        ax.set_ylabel(record.sig_name[ch] + '/' + record.units[ch])
 
         # Show standard ecg grids if specified
         if show_grid:
