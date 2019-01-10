@@ -50,6 +50,21 @@ def read_annotation(annotation_num, sampfrom=0, sampto=RECORD_LENGTH, beat_types
 	return ecg_annotation
 
 
+# Return Annotation object using custom data
+def create_annotation(samples, symbols, sampfrom=0, sampto=RECORD_LENGTH, beat_types=['V']):
+
+	# Determine the sample locations and symbols of desired beats
+	selected_samples = [samples[i] for i in range(len(samples)) if symbols[i] in beat_types]
+	selected_symbols = [symbols[i] for i in range(len(symbols)) if symbols[i] in beat_types]
+
+	# Write annotation file and read back in to create Annotation object
+	wfdb.wrann('temp_delete_me', 'atr', np.asarray(selected_samples), np.asarray(selected_symbols), fs=360)
+	ecg_annotation = wfdb.rdann('temp_delete_me', 'atr', sampfrom=sampfrom, sampto=sampto, shiftsamps=True)
+	os.remove('temp_delete_me.atr')
+
+	return ecg_annotation
+
+
 # -------------------------- Load ECG Record Data ---------------------------- #
 
 # Return consecutive, sliding 2D windows for use in prediction as model input
