@@ -83,7 +83,7 @@ def train_2d(record_numbers, sampfrom=0, sampto=RECORD_LENGTH, channels=[0,1],
     num_classes = len(beat_types) + 1
 
     # Load train, validation, and test data
-    (x_train, y_train), (x_val, y_val), (x_test, y_test) = ecg_data.load_datasets_windows_2d(record_numbers[0], sampfrom, sampto, beat_types, window_radius)
+    (x_train, y_train), (x_val, y_val), (x_test, y_test) = ecg_data.load_datasets_windows_2d(record_numbers, sampfrom, sampto, beat_types, window_radius)
 
     # Input dimensions
     img_y = 2 * window_radius + 1
