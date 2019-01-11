@@ -67,6 +67,7 @@ def create_annotation(samples, symbols, sampfrom=0, sampto=RECORD_LENGTH, beat_t
 
 # -------------------------- Load ECG Record Data ---------------------------- #
 
+
 # Return consecutive, sliding 2D windows for use in prediction as model input
 def load_windows_2d(record_number, sampfrom=0, sampto=1080, window_radius=24):
 
@@ -86,7 +87,37 @@ def load_windows_2d(record_number, sampfrom=0, sampto=1080, window_radius=24):
 
 
 # Return train, validation, and test datasets with one-hot encoded labels
-def load_datasets_windows_2d(record_number, sampfrom=0, sampto=10800, beat_types=['V'], window_radius=24):
+def load_datasets_windows_2d(record_numbers, sampfrom=0, sampto=10800, beat_types=['V'], window_radius=24):
+
+    x_train_all, y_train_all = None, None
+    x_val_all, y_val_all     = None, None
+    x_test_all, y_test_all   = None, None
+
+    # Combine data from specified records into one dataset
+    first = True
+    for record_number in record_numbers:
+        
+        (x_train, y_train), (x_val, y_val), (x_test, y_test) = load_datasets_windows_2d_helper(record_number, sampfrom, sampto, beat_types, window_radius)
+
+        if not first:
+            x_train_all = np.concatenate((x_train_all, x_train))
+            y_train_all = np.concatenate((y_train_all, y_train))
+            x_val_all   = np.concatenate((x_val_all, x_val))
+            y_val_all   = np.concatenate((y_val_all, y_val))
+            x_test_all  = np.concatenate((x_test_all, x_test))
+            y_test_all  = np.concatenate((y_test_all, y_test))
+        else:
+            x_train_all, y_train_all = x_train, y_train
+            x_val_all, y_val_all     = x_val, y_val
+            x_test_all, y_test_all   = x_test, y_test
+
+            first = False
+
+    return (x_train_all, y_train_all), (x_val_all, y_val_all), (x_test_all, y_test_all)
+
+
+# Return train, validation, and test datasets with one-hot encoded labels
+def load_datasets_windows_2d_helper(record_number, sampfrom=0, sampto=10800, beat_types=['V'], window_radius=24):
 
     # Create record and annotation objects
     record = read_record(record_number, sampfrom, sampto)
@@ -222,7 +253,7 @@ def plot_ecg_ann(record, annotation, record_num, sampfrom=0, sampto=10800, annst
             # Time locations of annotations (negatives removed)
             checked_tann = tann[ch][tann[ch] >= 0] + sampfrom/float(record.fs)
 
-            ax.plot(checked_tann, record.p_signal[checked_annplot, ch], annstyle[ch], zorder=3, markersize=5)
+            ax.plot(checked_tann, record.p_signal[checked_annplot, ch], annstyle[ch], zorder=3, markersize=4)
 
         # Set minimum x-coordinate as beginning of actual time, not necessarily 0
         ax.set_xlim(xmin=sampfrom/float(record.fs))
