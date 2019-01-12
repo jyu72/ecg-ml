@@ -66,13 +66,39 @@ We find that a few samples between the 63-second and 64-second marks are predict
 
 As is shown below, *noisy* signal data does not preclude a model from making accurate predictions.
 
-![prediction result 2](https://github.com/jyu72/ecg-ml/blob/master/demo-img3.png)
+![prediction result 3](https://github.com/jyu72/ecg-ml/blob/master/demo-img3.png)
+
+### Final Step: New Patients
+
+So far, we have only used data from one patient at a time. In other words, we trained a model using data from patient X, and then used that model to make predictions on unseen data from patient X.
+
+Now, we will utilize ECG data from multiple patients (106, 119, and 208) and use this combined dataset to train a model.
+
+```python
+model = ecg_cnn.train_2d([106, 119, 208], sampto=10800, beat_types=['V'], window_radius=24)
+```
+
+Next, we use this model to make predictions on a new patient (221).
+
+```python
+centers, windows = ecg_data.load_windows_2d(221, sampfrom=4320, sampto=7920, window_radius=24)
+predictions = ecg_cnn.predict_2d(model, centers, windows, window_radius=24)
+```
+
+Finally, we visualize the results.
+
+```python
+annotation = ecg_data.create_annotation(centers, predictions, sampfrom=4320, sampto=7920, beat_types=['V'])
+ecg_data.plot_prediction(221, annotation, sampfrom=4320, sampto=7920)
+```
+
+![prediction result 4](https://github.com/jyu72/ecg-ml/blob/master/demo-img4.png)
+
+The model generalizes 
 
 ## Conclusion
 
-As is demonstrated by the previous examples, it is possible to accurately identify **premature ventricular contractions** in individual patients using **convolutional neural network** models trained on previous data from the respective patient, even in the presence of significant signal noise. 
-
-In the near future, I plan to present additional results using models trained on multiple patients to make predictions on data from previously unseen patients.
+As is demonstrated by the previous examples, it is possible to accurately identify **premature ventricular contractions** in 2-lead ECG data using **convolutional neural network** models trained on a separate patient population.
 
 ## Author
 
