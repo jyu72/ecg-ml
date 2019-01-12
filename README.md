@@ -94,7 +94,7 @@ ecg_data.plot_prediction(221, annotation, sampfrom=4320, sampto=7920)
 
 ![prediction result 4](https://github.com/jyu72/ecg-ml/blob/master/demo-img4.png)
 
-The model generalizes 
+As ECG signals can vary significantly from patient to patient, and premature ventricular contractions can also take on different shapes, these results suggest that our model generalizes fairly well.
 
 ## Conclusion
 
