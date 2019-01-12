@@ -28,7 +28,7 @@ $ git clone https://github.com/jyu72/ecg-ml
 
 ## Usage and Examples
 
-The following is a guide to using the provided libraries to train and test CNN models and to make and visualize predictions using these models.
+The following is a guide to using the provided libraries to train and test CNN models and to make and visualize predictions using these models. We will perform our analysis on **premature ventricular contractions** (PVCs), a type of abnormal heart beat.
 
 ### Training
 The following code segment trains a 2-dimensional CNN on the first 10800 samples (equivalent to 30 seconds) of ECG Record 119 (```119.dat```), using its Annotation file (```119.atr```), both of which can be downloaded from the [MIT-BIH Arrhythmia Database](https://www.physionet.org/physiobank/database/mitdb/) mentioned previously. We have opted to detect PVCs (```'V'```).
@@ -62,7 +62,17 @@ A similar analysis can be performed on ECG Record 208, which can be visualized a
 
 ![prediction result 2](https://github.com/jyu72/ecg-ml/blob/master/demo-img2.png)
 
-We find that a few samples between the 63 second and 64 second marks are predicted incorrectly, but the overall performance is still acceptable.
+We find that a few samples between the 63-second and 64-second marks are predicted incorrectly, but the overall performance is still acceptable.
+
+As is shown below, *noisy* signal data does not preclude a model from making accurate predictions.
+
+![prediction result 2](https://github.com/jyu72/ecg-ml/blob/master/demo-img3.png)
+
+## Conclusion
+
+As is demonstrated by the previous examples, it is possible to accurately identify **premature ventricular contractions** in individual patients using **convolutional neural network** models trained on previous data from the respective patient, even in the presence of significant signal noise. 
+
+In the near future, I plan to present additional results using models trained on multiple patients to make predictions on data from previously unseen patients.
 
 ## Author
 
